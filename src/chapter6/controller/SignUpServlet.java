@@ -128,6 +128,12 @@ public class SignUpServlet extends HttpServlet {
 	        } else if (20 < account.length()) {
 	            errorMessages.add("アカウント名は20文字以下で入力してください");
 	        }
+	        // 実践課題その③
+	        User checkuser = new UserService().select(user.getAccount());
+	        // 重複したアカウントありの場合
+	        if(checkuser != null) {
+	    	    errorMessages.add("アカウント名が重複しています");
+	        }
 
 	        if (StringUtils.isEmpty(password)) {
 	            errorMessages.add("パスワードを入力してください");

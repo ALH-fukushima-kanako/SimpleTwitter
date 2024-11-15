@@ -140,7 +140,9 @@ public class UserDao {
 
                 users.add(user);
             }
+
             return users;
+
         } finally {
             close(rs);
         }
@@ -179,6 +181,39 @@ public class UserDao {
         }
     }
 
+    // 実践課題その③
+    /*
+     * String型のaccountを引数にもつ、selectメソッドを追加する
+     */
+    public User select(Connection connection, String account) {
+
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM users WHERE account = ?";
+
+            ps = connection.prepareStatement(sql);
+
+            ps.setString(1, account);
+
+            ResultSet rs = ps.executeQuery();
+
+            List<User> users = toUsers(rs);
+
+            if (users.isEmpty()) {
+                return null;
+            } else if (2 <= users.size()) {
+                throw new IllegalStateException("ユーザーが重複しています");
+            } else {
+                return users.get(0);
+            }
+        } catch (SQLException e) {
+            throw new SQLRuntimeException(e);
+        } finally {
+            close(ps);
+        }
+    }
+
+
     public void update(Connection connection, User user) {
 
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -191,19 +226,26 @@ public class UserDao {
             sql.append("    account = ?, ");
             sql.append("    name = ?, ");
             sql.append("    email = ?, ");
-            sql.append("    password = ?, ");
+            // 実践課題その①
+            if(!user.getPassword().isEmpty()){
+                sql.append("    password = ?, ");
+            }
             sql.append("    description = ?, ");
             sql.append("    updated_date = CURRENT_TIMESTAMP ");
             sql.append("WHERE id = ?");
 
             ps = connection.prepareStatement(sql.toString());
 
-            ps.setString(1, user.getAccount());
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getDescription());
-            ps.setInt(6, user.getId());
+            // 実践課題その①
+            int index = 1;
+            ps.setString(index++, user.getAccount());
+            ps.setString(index++, user.getName());
+            ps.setString(index++, user.getEmail());
+            if(!user.getPassword().isEmpty()) {
+                ps.setString(index++, user.getPassword());
+            }
+            ps.setString(index++, user.getDescription());
+            ps.setInt(index, user.getId());
 
             int count = ps.executeUpdate();
             if (count == 0) {

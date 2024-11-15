@@ -119,6 +119,30 @@ public class UserService {
         }
     }
 
+    // 実践課題その③
+    /*
+     * String型の引数をもつ、selectメソッドを追加する
+     */
+    public User select(String account) {
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            User user = new UserDao().select(connection, account);
+            commit(connection);
+
+            return user;
+        } catch (RuntimeException e) {
+            rollback(connection);
+            throw e;
+        } catch (Error e) {
+            rollback(connection);
+            throw e;
+        } finally {
+            close(connection);
+        }
+    }
+
     public void update(User user) {
 
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -126,13 +150,21 @@ public class UserService {
 
         Connection connection = null;
         try {
-            // パスワード暗号化
-            String encPassword = CipherUtil.encrypt(user.getPassword());
-            user.setPassword(encPassword);
 
-            connection = getConnection();
-            new UserDao().update(connection, user);
-            commit(connection);
+        	// 実践課題その①
+        	// パスワードが入力された時だけ暗号化する
+        	if(!user.getPassword().isEmpty()) {
+                // パスワード暗号化
+                String encPassword = CipherUtil.encrypt(user.getPassword());
+                user.setPassword(encPassword);
+        	}
+
+        	connection = getConnection();
+
+        	new UserDao().update(connection, user);
+
+        	commit(connection);
+
         } catch (RuntimeException e) {
             rollback(connection);
     	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
