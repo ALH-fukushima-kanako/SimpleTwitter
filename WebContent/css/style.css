@@ -124,3 +124,26 @@ label {
 	margin-left: 10px;
 	color: red;
 }
+
+.box{
+	 display: inline-block;
+	 width:70px
+}
+
+.editbtn{
+
+}
+
+.delbtn{
+
+}
+
+.commentArea{
+	font-size: 0.8rem;
+	color: #4682b4;
+}
+
+.narrow-down{
+	margin : 30px;
+}
+

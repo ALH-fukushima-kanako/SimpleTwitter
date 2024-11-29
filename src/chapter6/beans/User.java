@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-    private int id;
-    private String account;
-    private String name;
-    private String email;
-    private String password;
-    private String description;
-    private Date createdDate;
-    private Date updatedDate;
+    private int id;			// ID
+    private String account;		// アカウント
+    private String name;		// 名前
+    private String email;		// メールアドレス
+    private String password;	// パスワード
+    private String description;// 説明
+    private Date createdDate;  // 登録日時
+    private Date updatedDate;  // 更新日時
 
     public int getId() {
 		return id;

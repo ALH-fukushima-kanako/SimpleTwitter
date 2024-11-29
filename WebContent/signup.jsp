@@ -40,7 +40,7 @@
                 <a href="./">戻る</a>
             </form>
 
-            <div class="copyright">Copyright(c)Your Name</div>
+            <div class="copyright"> Copyright(c)Fukushima.K</div>
         </div>
     </body>
 </html>

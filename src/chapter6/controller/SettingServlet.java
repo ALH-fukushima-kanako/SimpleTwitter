@@ -126,7 +126,7 @@ public class SettingServlet extends HttpServlet {
         // 重複したアカウントありの場合
         // (アカウント名変更対象のIDと重複したデータのIDが一緒であれば同一アカウントであるためスキップ)
         if(checkuser != null && user.getId() != checkuser.getId() ) {
-    	    errorMessages.add("アカウント名が重複しています");
+    	    errorMessages.add("すでに存在するアカウントです");
         }
         // 実践課題その①
         //if (StringUtils.isEmpty(password)) {

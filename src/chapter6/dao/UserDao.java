@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
+
 import chapter6.beans.User;
 import chapter6.exception.NoRowsUpdatedRuntimeException;
 import chapter6.exception.SQLRuntimeException;
@@ -227,7 +229,7 @@ public class UserDao {
             sql.append("    name = ?, ");
             sql.append("    email = ?, ");
             // 実践課題その①
-            if(!user.getPassword().isEmpty()){
+            if(!(StringUtils.isBlank(user.getPassword()))){
                 sql.append("    password = ?, ");
             }
             sql.append("    description = ?, ");
@@ -241,7 +243,7 @@ public class UserDao {
             ps.setString(index++, user.getAccount());
             ps.setString(index++, user.getName());
             ps.setString(index++, user.getEmail());
-            if(!user.getPassword().isEmpty()) {
+            if(!(StringUtils.isBlank(user.getPassword()))) {
                 ps.setString(index++, user.getPassword());
             }
             ps.setString(index++, user.getDescription());

@@ -5,11 +5,11 @@ import java.util.Date;
 
 public class Message implements Serializable {
 
-    private int id;
-    private int userId;		// 誰がつぶやいたか
-    private String text;		// メッセージ本文
-    private Date createdDate;	// いつつぶやいたか
-    private Date updatedDate;
+    private int id;			// ID
+    private int userId;		// 利用者ID   →誰がつぶやいたか
+    private String text;		// つぶやき   →メッセージ本文
+    private Date createdDate;	// 登録日時   →いつつぶやいたか
+    private Date updatedDate;	// 更新日時
 
     public int getId() {
 		return id;

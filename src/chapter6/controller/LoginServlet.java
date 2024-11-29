@@ -40,7 +40,8 @@ public class LoginServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+          request.getRequestDispatcher("login.jsp").forward(request, response);
+
     }
 
     @Override

@@ -14,7 +14,7 @@
         <div class="main-contents">
 		<div class="header">
 		    <c:if test="${ empty loginUser }">
-		        <a href="login">ログイン</a>
+		        <a href="login.jsp">ログイン</a>
 		        <a href="signup">登録する</a>
 		    </c:if>
 		    <c:if test="${ not empty loginUser }">
@@ -23,6 +23,14 @@
 		        <a href="logout">ログアウト</a>
 		    </c:if>
 		</div>
+
+		<div class="narrow-down">
+		    <form action="./" method="get">
+		        日付：<input type="date" name="startday" value="${startday}"></input>&nbsp;～&nbsp;<input type="date" name="endday"  value="${endday}"></input>
+		        <input type="submit" value="絞り込み">
+		    </form>
+		</div>
+
 		<c:if test="${ not empty loginUser }">
 		    <div class="profile">
 		        <div class="name"><h2><c:out value="${loginUser.name}" /></h2></div>
@@ -65,9 +73,47 @@
 		                </span>
 		                <span class="name"><c:out value="${message.name}" /></span>
 		            </div>
-		            <div class="text"><c:out value="${message.text}" /></div>
+		            <div class="text"><pre><c:out value="${message.text}" /></pre></div>
 		            <div class="date"><fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
 		        </div>
+		        <!-- [仕様追加]つぶやき編集・削除(ログイン時のみ可) -->
+				<c:if test="${ not empty loginUser && loginUser.account == message.account}">
+			        <div class="box editbtn">
+			        	<form action="edit" method="get">
+			        		<input type="hidden" name="editMessageId" value="${message.id}">
+							<button type="submit">編集</button>
+						</form>
+			        </div>
+			        <div class="box delbtn">
+			        	<form action="deleteMessage" method="post">
+			        		<input type="hidden" name="delMessageId" value="${message.id}">
+							<button type="submit">削除</button>
+						</form>
+			        </div>
+				</c:if>
+				<br />
+			    <!-- [仕様追加]返信の表示(未ログインでも閲覧可) -->
+			    <div class="commentArea">
+			     	<c:forEach items="${comments}" var="comments">
+			      		<c:if test="${message.id == comments.messageId}">
+							<span class="name">${comments.account}&nbsp;&nbsp;${comments.name}</span><br />
+							<div class="text"><pre>${comments.text}</pre></div>
+							<div class="date"><fmt:formatDate value="${comments.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div><br />
+			        	</c:if>
+					</c:forEach>
+			    </div>
+				<br />
+				<c:if test="${ not empty loginUser}">
+			        <!-- [仕様追加]つぶやきの返信(ログイン時のみ可) -->
+			        <form action="comment" method="post">
+			            返信<br />
+			            <textarea name="ctext" cols="100" rows="5" class="tweet-box"></textarea>
+			            <br />
+			            <input type="hidden" name="cmessageId" value="${message.id}">
+			            <input type="submit" value="返信">
+			        </form>
+					<br />
+				</c:if>
 		    </c:forEach>
 		</div>
 

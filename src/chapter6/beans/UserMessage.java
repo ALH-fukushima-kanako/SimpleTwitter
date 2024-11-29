@@ -5,12 +5,14 @@ import java.util.Date;
 
 public class UserMessage implements Serializable {
 
-    private int id;
-    private String account;
-    private String name;
-    private int userId;
-    private String text;
-    private Date createdDate;
+	// 利用者マスタ + つぶやきテーブル
+
+    private int id;			// ID
+    private String account;		// アカウント
+    private String name;		// 名前
+    private int userId;		// 利用者ID
+    private String text;		// 	つぶやき
+    private Date createdDate;	// つぶやき登録日時
 
     public int getId() {
 		return id;
